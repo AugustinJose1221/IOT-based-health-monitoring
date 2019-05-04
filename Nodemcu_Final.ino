@@ -1,10 +1,15 @@
 #include <SoftwareSerial.h>
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
-#define WIFI_AP "XXXXXXXXXXX"
-#define WIFI_PASSWORD "XXXXXXXXXX"
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_ADXL345_U.h>
 
-#define TOKEN "XXXXXXXXXXXXXXX"
+int flag = 0;
+#define WIFI_AP "LAPTOP-KDHU81SC 9862"
+#define WIFI_PASSWORD "99999999"
+
+#define TOKEN "FBrnr8e1ce5G8J6Mvw0c"
 
 char thingsboardServer[] = "demo.thingsboard.io";
 
@@ -30,8 +35,11 @@ void InitWiFi()
   }
   Serial.println("Connected to AP");
 }
-
-void setup() 
+Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
+int ax=1;
+int ay=2;
+int az=3;
+void setup(void) 
 {
   s.begin(9600);
   Serial.begin(9600);
@@ -39,6 +47,12 @@ void setup()
   InitWiFi();
   client.setServer( thingsboardServer, 1883 );
   lastSend = 0;
+  
+  if(!accel.begin())
+  {
+    while(1);
+  }
+  accel.setRange(ADXL345_RANGE_16_G);
 }
 
 
@@ -72,8 +86,16 @@ void reconnect()
 
 int data[10];
 int x=1;
-void loop() 
+void loop(void) 
 {
+  /*
+  sensors_event_t event; 
+  accel.getEvent(&event);
+  ax=event.acceleration.x;
+  ay=event.acceleration.y;
+  az=event.acceleration.z;
+  */ 
+
     if ( !client.connected() ) 
     {
       reconnect();
@@ -89,11 +111,14 @@ void loop()
       if(x!=0)
       {
         Serial.println(data[x]);
+        
       }
       x++;
     }
-    if ( millis() - lastSend > 1000 ) 
-  { // Update and send only after 1 seconds
+    
+    //if ( millis() - lastSend > 1000 ) 
+    //{ // Update and send only after 1 seconds
+    if(flag==1);
     {
       String payload = "{";
       payload += "\"Pulse\":"; 
@@ -114,19 +139,44 @@ void loop()
       payload += "\"Pulse1\":"; 
       payload += data[6];
       payload += "}";
+      flag=0;
+      char attributes[100];
+      payload.toCharArray( attributes, 100 );
+      client.publish( "v1/devices/me/telemetry", attributes );
+      Serial.println( attributes );
+    }
+    if(flag==0)
+    {
+      sensors_event_t event; 
+      accel.getEvent(&event);
+      ax=event.acceleration.x;
+      ay=event.acceleration.y;
+      az=event.acceleration.z;
+      payload = "{";
+      payload+= "\"X\":"; 
+      payload += ax;
+      payload += ",";
+      payload += "\"Y\":"; 
+      payload += ay;
+      payload += ",";
+      payload += "\"Z\":"; 
+      payload += az;
+      
+      payload += "}";
 
       char attributes[100];
       payload.toCharArray( attributes, 100 );
       client.publish( "v1/devices/me/telemetry", attributes );
       Serial.println( attributes );
-
-      }
-    lastSend = millis();
+      flag=1;
+    }
+      
+      lastSend = millis();
    
-  }
-   client.loop();
+  //}
+   //client.loop();
+  
+   
    
 }
-
-
 
