@@ -88,13 +88,7 @@ int data[10];
 int x=1;
 void loop(void) 
 {
-  /*
-  sensors_event_t event; 
-  accel.getEvent(&event);
-  ax=event.acceleration.x;
-  ay=event.acceleration.y;
-  az=event.acceleration.z;
-  */ 
+  
 
     if ( !client.connected() ) 
     {
@@ -174,9 +168,8 @@ void loop(void)
       lastSend = millis();
    
   //}
-   //client.loop();
+   client.loop();
   
    
    
 }
-
