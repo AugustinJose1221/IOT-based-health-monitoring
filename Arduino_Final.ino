@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 int sensorvalue;
 SoftwareSerial s(5, 6);				    //Connect serial out cable to pin 6
-SoftwareSerial serial(9, 10);			//Connect serial Tx-OUT of blood pressure sensor to pin 9
+SoftwareSerial serial(9, 10);			  //Connect serial Tx-OUT of blood pressure sensor to pin 9
 void setup() 
 {
   Serial.begin(9600);
