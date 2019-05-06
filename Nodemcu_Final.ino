@@ -1,4 +1,14 @@
 /*
+Nodemcu Requirements
+->Install ESP8266WiFi.h
+->Install SoftwareSerial.h
+->Install PubSubClient.h
+
+If error arrise, install the following packages
+->Install Wire.h
+->Install Adafruit_Sensor.h
+->Install Adafruit_ADXL345_U.h
+
 Nodemcu Connections
 1-Replace the WiFi_AP value with the SSID of the WiFi hotspot
 2-Replace the WIFI_PASSWORD with the password of the WiFi hotspot
