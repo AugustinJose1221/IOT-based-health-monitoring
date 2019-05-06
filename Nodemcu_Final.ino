@@ -1,3 +1,16 @@
+/*
+Nodemcu Connections
+1-Replace the WiFi_AP value with the SSID of the WiFi hotspot
+2-Replace the WIFI_PASSWORD with the password of the WiFi hotspot
+3-Replace TOKEN value with Access Token of the device from the Thingsboard account 
+4-Connect the serial cable to D6 pin of the nodemcu 
+ADXL345 Connections
+1-Connect Vcc to 3V pin of the nodemcu
+2-Connect GND to GND of th nodemcu
+3-Connect SCL to D1 of the nodemcu
+4-Connect SDA to D2 of the nodemcu
+*/
+
 #include <SoftwareSerial.h>
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
