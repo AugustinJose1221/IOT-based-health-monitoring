@@ -1,8 +1,32 @@
+/*
+Arduino Requirements
+1-Connect serial cable to pin 6
+->Install SoftwareSerial.h package
+
+Blood Pressure Connections
+1-Connect the Vcc and GND to the terminals of a 5v battery
+2-Connect Tx-OUT of the blood pressure sensor to pin 9
+
+Pulse Sensor Connections
+1-Connect Vcc to 3.3v of the Arduino
+2-Connect GND to GND of the Arduino
+3-Connect the signal pin to A0 of the Arduino
+
+LM35 Connections
+1-Connect Vcc to 5v of the Arduino
+2-Connect GND to GND of the Arduino
+3-Connect the signal pin to A2 of the Arduino
+
+Heartbeat Sensor Connections
+1-Connect Vcc to 3.3v of the Arduino
+2-Connect GND to GND of the Arduino
+3-Connect the signal pin to A4 of the Arduino
+*/
 
 #include <SoftwareSerial.h>
 int sensorvalue;
 SoftwareSerial s(5, 6);				    //Connect serial out cable to pin 6
-SoftwareSerial serial(9, 10);			    //Connect serial Tx-OUT of blood pressure sensor to pin 9
+SoftwareSerial serial(9, 10);			    //Connect Tx-OUT of blood pressure sensor to pin 9
 void setup() 
 {
   Serial.begin(9600);
