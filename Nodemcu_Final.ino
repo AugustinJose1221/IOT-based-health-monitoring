@@ -6,10 +6,10 @@
 #include <Adafruit_ADXL345_U.h>
 
 int flag = 0;
-#define WIFI_AP "XXXXXXXXXXX"				            //SSID of the WiFi hotspot
-#define WIFI_PASSWORD "XXXXXXXXXX"			        //WiFi password
+#define WIFI_AP "XXXXXXXXXXX"				          //SSID of the WiFi hotspot
+#define WIFI_PASSWORD "XXXXXXXXXX"				          //WiFi password
 
-#define TOKEN "FBrnr8e1ce5G8J6Mvw0c"			      //Device Token in Thingsboard
+#define TOKEN "FBrnr8e1ce5G8J6Mvw0c"				          //Device Token in Thingsboard
 
 char thingsboardServer[] = "demo.thingsboard.io";
 
