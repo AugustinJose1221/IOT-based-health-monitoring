@@ -20,7 +20,7 @@ PubSubClient client(wifiClient);
 int status = WL_IDLE_STATUS;
 unsigned long lastSend;
 
-SoftwareSerial s(D6,D5);				                //Connect serial cable to D6 pin
+SoftwareSerial s(D6,D5);				           //Connect serial cable to D6 pin
 String payload ="{";
 
 void InitWiFi()
