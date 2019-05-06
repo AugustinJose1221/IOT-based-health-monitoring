@@ -6,10 +6,10 @@
 #include <Adafruit_ADXL345_U.h>
 
 int flag = 0;
-#define WIFI_AP "LAPTOP-KDHU81SC 9862"
-#define WIFI_PASSWORD "99999999"
+#define WIFI_AP "XXXXXXXXXXX"				            //SSID of the WiFi hotspot
+#define WIFI_PASSWORD "XXXXXXXXXX"			        //WiFi password
 
-#define TOKEN "FBrnr8e1ce5G8J6Mvw0c"
+#define TOKEN "FBrnr8e1ce5G8J6Mvw0c"			      //Device Token in Thingsboard
 
 char thingsboardServer[] = "demo.thingsboard.io";
 
@@ -20,13 +20,13 @@ PubSubClient client(wifiClient);
 int status = WL_IDLE_STATUS;
 unsigned long lastSend;
 
-SoftwareSerial s(D6,D5);
+SoftwareSerial s(D6,D5);				                //Connect serial cable to D6 pin
 String payload ="{";
 
 void InitWiFi()
 {
   Serial.println("Connecting to AP ...");
-  // attempt to connect to WiFi network
+
 
   WiFi.begin(WIFI_AP, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
@@ -58,7 +58,6 @@ void setup(void)
 
 void reconnect() 
 {
-  // Loop until we're reconnected
   while (!client.connected()) {
     status = WiFi.status();
     if ( status != WL_CONNECTED) {
@@ -78,7 +77,6 @@ void reconnect()
       Serial.print( "[FAILED] [ rc = " );
       Serial.print( client.state() );
       Serial.println( " : retrying in 5 seconds]" );
-      // Wait 5 seconds before retrying
       delay( 5000 );
     }
   }
@@ -110,8 +108,6 @@ void loop(void)
       x++;
     }
     
-    //if ( millis() - lastSend > 1000 ) 
-    //{ // Update and send only after 1 seconds
     if(flag==1);
     {
       String payload = "{";
@@ -167,7 +163,6 @@ void loop(void)
       
       lastSend = millis();
    
-  //}
    client.loop();
   
    
