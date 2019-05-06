@@ -2,15 +2,15 @@
 #include <SoftwareSerial.h>
 int sensorvalue;
 SoftwareSerial s(5, 6);				    //Connect serial out cable to pin 6
-SoftwareSerial serial(9, 10);			//Connect serial Tx-OUT of blood pressure sensor to pin 9
+SoftwareSerial serial(9, 10);			     //Connect serial Tx-OUT of blood pressure sensor to pin 9
 void setup() 
 {
   Serial.begin(9600);
   s.begin(9600);
   serial.begin(9600);
-  pinMode(A0,INPUT);				      //Connect signal pin of Pulse sensor to A0 pin
-  pinMode(A2,INPUT);				      //Connect signal pin of LM35 to A2 pin
-  pinMode(A4,INPUT);				      //Connect signal pin of heartbeat sensor to A4 pin
+  pinMode(A0,INPUT);				    //Connect signal pin of Pulse sensor to A0 pin
+  pinMode(A2,INPUT);				    //Connect signal pin of LM35 to A2 pin
+  pinMode(A4,INPUT);				    //Connect signal pin of heartbeat sensor to A4 pin
 }
 float p = 0.0;
 float t = 0.0;
