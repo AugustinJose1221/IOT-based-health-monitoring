@@ -4,9 +4,11 @@
 
 <h4>Arduino Requirements</h4><br>
 1-Connect serial cable to pin 6<br>
+
 ```
 Install SoftwareSerial.h package
 ```
+
 <h4>Blood Pressure Connections</h4><br>
 1-Connect the Vcc and GND to the terminals of a 5v battery<br>
 2-Connect Tx-OUT of the blood pressure sensor to pin 9<br>
