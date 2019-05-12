@@ -29,15 +29,15 @@ ADXL345 Connections
 #include <Adafruit_ADXL345_U.h>
 
 int flag = 0;
-#define WIFI_AP "LAPTOP-KDHU81SC 9862"                  //SSID of the WiFi hotspot
-#define WIFI_PASSWORD "99999999"          //WiFi password
+#define WIFI_AP "XXXXXXXXXXXXXX"                  //SSID of the WiFi hotspot
+#define WIFI_PASSWORD "XXXXXXXXXXX"          //WiFi password
 
-const char* mqttServer = "m16.cloudmqtt.com";
-const int mqttPort = 10989;
-const char* mqttUser = "iihneaxm";
-const char* mqttPassword = "kJdnse_hMH1V";
+const char* mqttServer = "XXXXXXXXXXXX";
+const int mqttPort = XXXXXXXXX;
+const char* mqttUser = "XXXXXXXXXX";
+const char* mqttPassword = "XXXXXXXXXXXX";
 
-#define TOKEN "FBrnr8e1ce5G8J6Mvw0c"          //Device Token in Thingsboard
+#define TOKEN "XXXXXXXXXXXXXXX"          //Device Token in Thingsboard
 
 char thingsboardServer[] = "demo.thingsboard.io";
 
