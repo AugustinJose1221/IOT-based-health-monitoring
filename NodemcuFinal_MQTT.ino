@@ -32,10 +32,10 @@ int flag = 0;
 #define WIFI_AP "XXXXXXXXXXXXXX"                  //SSID of the WiFi hotspot
 #define WIFI_PASSWORD "XXXXXXXXXXX"          //WiFi password
 
-const char* mqttServer = "XXXXXXXXXXXX";
-const int mqttPort = XXXXXXXXX;
-const char* mqttUser = "XXXXXXXXXX";
-const char* mqttPassword = "XXXXXXXXXXXX";
+const char* mqttServer = "XXXXXXXXXXXX";      //MQTT Server url
+const int mqttPort = XXXXXXXXX;               //MQTT Instance Port
+const char* mqttUser = "XXXXXXXXXX";          //MQTT Server Name
+const char* mqttPassword = "XXXXXXXXXXXX";     //MQTT Password
 
 #define TOKEN "XXXXXXXXXXXXXXX"          //Device Token in Thingsboard
 
