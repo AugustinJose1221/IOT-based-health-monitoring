@@ -29,21 +29,23 @@ ADXL345 Connections
 #include <Adafruit_ADXL345_U.h>
 
 int flag = 0;
-#define WIFI_AP "XXXXXXXXXXXXXX"                  //SSID of the WiFi hotspot
-#define WIFI_PASSWORD "XXXXXXXXXXX"          //WiFi password
+#define WIFI_AP "XXXXXXXX"                  //SSID of the WiFi hotspot
+#define WIFI_PASSWORD "XXXXXXXXX"          //WiFi password
 
-const char* mqttServer = "XXXXXXXXXXXX";      //MQTT Server url
-const int mqttPort = XXXXXXXXX;               //MQTT Instance Port
-const char* mqttUser = "XXXXXXXXXX";          //MQTT Server Name
+const char* mqttServer = "XXXXXXXXXXX";      //MQTT Server url
+const int mqttPort = XXXXXXXXXXX;               //MQTT Instance Port
+const char* mqttUser = "XXXXXXXXXXXX";          //MQTT Server Name
 const char* mqttPassword = "XXXXXXXXXXXX";     //MQTT Password
 
-#define TOKEN "XXXXXXXXXXXXXXX"          //Device Token in Thingsboard
+#define TOKEN "XXXXXXXXXXXXXXXXX"          //Device Token in Thingsboard
 
 char thingsboardServer[] = "demo.thingsboard.io";
 
-WiFiClient wifiClient;
+WiFiClient wifiClient1;
+WiFiClient wifiClient2;
 
-PubSubClient client(wifiClient);
+PubSubClient client1(wifiClient1);
+PubSubClient client2(wifiClient2);
 
 int status = WL_IDLE_STATUS;
 unsigned long lastSend;
@@ -73,7 +75,7 @@ void setup(void)
   Serial.begin(9600);
   delay(10);
   InitWiFi();
-  client.setServer( thingsboardServer, 1883 );
+  client1.setServer( thingsboardServer, 1883 );
   lastSend = 0;
   
   if(!accel.begin())
@@ -82,14 +84,14 @@ void setup(void)
   }
   accel.setRange(ADXL345_RANGE_16_G);
   
-  client.setServer(mqttServer, mqttPort);
-  client.setCallback(callback);
+  client2.setServer(mqttServer, mqttPort);
+  client2.setCallback(callback);
  
-  while (!client.connected()) 
+  while (!client2.connected()) 
   {
     Serial.println("Connecting to MQTT...");
  
-    if (client.connect("Augustin Jose", mqttUser, mqttPassword )) 
+    if (client2.connect("Augustin Jose", mqttUser, mqttPassword )) 
     {
  
       Serial.println("connected");  
@@ -98,7 +100,7 @@ void setup(void)
     {
  
       Serial.print("failed with state ");
-      Serial.print(client.state());
+      Serial.print(client2.state());
       delay(2000);
  
     }
@@ -123,7 +125,7 @@ void callback(char* topic, byte* payload, unsigned int length)
 
 void reconnect() 
 {
-  while (!client.connected()) {
+  while (!client1.connected()) {
     status = WiFi.status();
     if ( status != WL_CONNECTED) {
       WiFi.begin(WIFI_AP, WIFI_PASSWORD);
@@ -134,13 +136,13 @@ void reconnect()
       Serial.println("Connected to AP");
     }
     Serial.print("Connecting to ThingsBoard node ...");
-    // Attempt to connect (clientId, username, password)
-    if ( client.connect("ESP8266 Device", TOKEN, NULL) ) {
+    // Attempt to connect (client1Id, username, password)
+    if ( client1.connect("ESP8266 Device", TOKEN, NULL) ) {
       Serial.println( "[DONE]" );
     } 
     else {
       Serial.print( "[FAILED] [ rc = " );
-      Serial.print( client.state() );
+      Serial.print( client1.state() );
       Serial.println( " : retrying in 5 seconds]" );
       delay( 5000 );
     }
@@ -153,7 +155,7 @@ void loop(void)
 {
   
 
-    if ( !client.connected() ) 
+    if ( !client1.connected() ) 
     {
       reconnect();
     }
@@ -197,16 +199,17 @@ void loop(void)
       flag=0;
       char attributes[100];
       payload.toCharArray( attributes, 100 );
-      client.publish( "v1/devices/me/telemetry", attributes );
+      client1.publish( "v1/devices/me/telemetry", attributes );
       Serial.println( attributes );
 
       
-      client.publish("Pulse", String(data[1]).c_str());
-      client.publish("Temperature", String(data[2]).c_str());
-      client.publish("Beat", String(data[3]).c_str());
-      client.publish("Systolic", String(data[4]).c_str());
-      client.publish("Diastolic", String(data[5]).c_str());
-      client.publish("Pulse1", String(data[6]).c_str());
+      client2.publish("Pulse", String(data[1]).c_str());
+      client2.publish("Temperature", String(data[2]).c_str());
+      client2.publish("Beat", String(data[3]).c_str());
+      client2.publish("Systolic", String(data[4]).c_str());
+      client2.publish("Diastolic", String(data[5]).c_str());
+      client2.publish("Pulse1", String(data[6]).c_str());
+      
     }
     if(flag==0)
     {
@@ -229,20 +232,17 @@ void loop(void)
 
       char attributes[100];
       payload.toCharArray( attributes, 100 );
-      client.publish( "v1/devices/me/telemetry", attributes );
+      client1.publish( "v1/devices/me/telemetry", attributes );
       Serial.println( attributes );
 
-      client.publish("X", String(ax).c_str());
-      client.publish("Y", String(ay).c_str());
-      client.publish("Z", String(az).c_str());
-      
+      client2.publish("X", String(ax).c_str());
+      client2.publish("Y", String(ay).c_str());
+      client2.publish("Z", String(az).c_str());
+
       flag=1;
     }
       
       lastSend = millis();
    
-   client.loop();
-  
-   
-   
+   client1.loop();   
 }
