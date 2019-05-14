@@ -58,14 +58,14 @@ void InitWiFi()
   Serial.println("Connecting to AP ...");
 
 
-  WiFi.begin(WIFI_AP, WIFI_PASSWORD);
+  WiFi.begin(WIFI_AP, WIFI_PASSWORD);     //Connecting to WiFi hotspot
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
   Serial.println("Connected to AP");
 }
-Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
+Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);   //Making an instance for reading data from ADXL345
 int ax=1;
 int ay=2;
 int az=3;
@@ -75,7 +75,7 @@ void setup(void)
   Serial.begin(9600);
   delay(10);
   InitWiFi();
-  client1.setServer( thingsboardServer, 1883 );
+  client1.setServer( thingsboardServer, 1883 );     //Connecting to MQTT Server
   lastSend = 0;
   
   if(!accel.begin())
@@ -91,7 +91,7 @@ void setup(void)
   {
     Serial.println("Connecting to MQTT...");
  
-    if (client2.connect("Augustin Jose", mqttUser, mqttPassword )) 
+    if (client2.connect("Health", mqttUser, mqttPassword )) 
     {
  
       Serial.println("connected");  
@@ -107,7 +107,7 @@ void setup(void)
   }
 }
 
-void callback(char* topic, byte* payload, unsigned int length) 
+void callback(char* topic, byte* payload, unsigned int length)      //Making a callback
 {
  
   Serial.print("Message arrived in topic: ");
@@ -199,11 +199,11 @@ void loop(void)
       flag=0;
       char attributes[100];
       payload.toCharArray( attributes, 100 );
-      client1.publish( "v1/devices/me/telemetry", attributes );
+      client1.publish( "v1/devices/me/telemetry", attributes );     //Publishing data to Thingsboard
       Serial.println( attributes );
 
       
-      client2.publish("Pulse", String(data[1]).c_str());
+      client2.publish("Pulse", String(data[1]).c_str());            //Publishing data to MQTT Server
       client2.publish("Temperature", String(data[2]).c_str());
       client2.publish("Beat", String(data[3]).c_str());
       client2.publish("Systolic", String(data[4]).c_str());
@@ -213,9 +213,9 @@ void loop(void)
     }
     if(flag==0)
     {
-      sensors_event_t event; 
-      accel.getEvent(&event);
-      ax=event.acceleration.x;
+      sensors_event_t event;        //Making an object to read sensor data
+      accel.getEvent(&event); 
+      ax=event.acceleration.x;      //Reading specific data using object and given attributes
       ay=event.acceleration.y;
       az=event.acceleration.z;
       payload = "{";
