@@ -53,9 +53,14 @@ void loop()
   {
     serial.readBytesUntil(lf,serialData, 15);
   }
-  read1 = ((serialData[1]-'0')*100) + ((serialData[2]-'0')*10) +(serialData[3]-'0');
-  read2 = ((serialData[6]-'0')*100) + ((serialData[7]-'0')*10) +(serialData[8]-'0');
-  read3 = ((serialData[11]-'0')*100) + ((serialData[12]-'0')*10) +(serialData[13]-'0');
+  /*
+  Reading data from Blood Pressure Sensor.The data is send serially as ASCII values.The first bit is a start bit 
+  and the last bit is a stop bit.The sensor data consist of Systolic pressure, Diastolic pressure and the pulse of the patient.
+  Each data is represented by three ASCII characters of which the first character is the MSB and the last character is the LSB.
+  */
+  read1 = ((serialData[1]-'0')*100) + ((serialData[2]-'0')*10) +(serialData[3]-'0');    //The 2nd,3rd and 4th ASCII characters corresponds to the Systolic pressure
+  read2 = ((serialData[6]-'0')*100) + ((serialData[7]-'0')*10) +(serialData[8]-'0');    //The 7th,8th and 9th ASCII characters corresponds to the Diastolic pressure 
+  read3 = ((serialData[11]-'0')*100) + ((serialData[12]-'0')*10) +(serialData[13]-'0'); //The 12th,13th and 14th ASCII character corresponds to the pulse
 
   Serial.println(int(read1));
   Serial.println(int(read2));
@@ -66,7 +71,7 @@ void loop()
   Serial.println(pulse());
   Serial.println(temp());
   Serial.println(beat());
-  s.write(int(read1));
+  s.write(int(read1));      //Sending data serially to Nodemcu
   s.write(int(read2));
   s.write(int(read3));
 
@@ -75,22 +80,22 @@ void loop()
   
 }
 
-float pulse()
+float pulse()       //Function to read pulse from the pulse sensor 
 {
   delay(20);
   p = analogRead(A0);
   s.write(p);
   return p;
 }
-float temp()
+float temp()        //Function to read temperature from the LM35 sensor
 {
   delay(10);
   t = analogRead(A2);
-  t1=(5.0*t*1000.0)/(1024*10);
+  t1=(5.0*t*1000.0)/(1024*10);    //Conversion factor to convert the analog values to Celcuis scale
   s.write(t1);
   return t1;
 }
-float beat()
+float beat()        //Function to read heart beats from beat sensor
 {
   
   b = analogRead(A4);
