@@ -51,14 +51,14 @@ void InitWiFi()
   Serial.println("Connecting to AP ...");
 
 
-  WiFi.begin(WIFI_AP, WIFI_PASSWORD);
+  WiFi.begin(WIFI_AP, WIFI_PASSWORD);     //Connecting to Wifi hotspot
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
   Serial.println("Connected to AP");
 }
-Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
+Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);   //Creating an instance for reading accelerometer data
 int ax=1;
 int ay=2;
 int az=3;
@@ -68,7 +68,7 @@ void setup(void)
   Serial.begin(9600);
   delay(10);
   InitWiFi();
-  client.setServer( thingsboardServer, 1883 );
+  client.setServer( thingsboardServer, 1883 );      //Connecting to Thingsboard 
   lastSend = 0;
   
   if(!accel.begin())
@@ -155,14 +155,14 @@ void loop(void)
       flag=0;
       char attributes[100];
       payload.toCharArray( attributes, 100 );
-      client.publish( "v1/devices/me/telemetry", attributes );
+      client.publish( "v1/devices/me/telemetry", attributes );      //Publishing data to Thingsboard database
       Serial.println( attributes );
     }
     if(flag==0)
     {
-      sensors_event_t event; 
+      sensors_event_t event;      //Creating an object to read accelerometer data
       accel.getEvent(&event);
-      ax=event.acceleration.x;
+      ax=event.acceleration.x;    //Reading data using objec and specified attributes
       ay=event.acceleration.y;
       az=event.acceleration.z;
       payload = "{";
